@@ -1,0 +1,87 @@
+project_name: nethealth
+release:
+  github:
+    owner: dihedron
+    name: nethealth
+  name_template: '{{.Tag}}'
+before:
+  hooks:
+    - make clean
+    - go mod tidy    
+builds:
+  - env: 
+    - DESCRIPTION=Network Health Monitor.
+    - COPYRIGHT=2023 © Andrea Funtò
+    - LICENSE=MIT
+    - LICENSE_URL=https://opensource.org/licenses/MIT
+    - GOVERSION=1.19.5
+    - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+    goarch:
+      - amd64
+    goamd64:
+#      - v1
+#      - v2
+      - v3
+#      - v4      
+    flags:
+      - -v
+    ldflags:
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.Name={{.ProjectName}}'
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.Description={{.Env.DESCRIPTION}}'
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.Copyright={{.Env.COPYRIGHT}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.License={{.Env.LICENSE}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.LicenseURL={{.Env.LICENSE_URL}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.GoVersion={{.Env.GOVERSION}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.GoOS={{.Os}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.GoArch={{.Arch}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.GitTag={{.Tag}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.GitCommit={{.ShortCommit}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.GitHash={{.FullCommit}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.BuildDate={{.Date}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.BuildTime={{.Timestamp}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.VersionMajor={{.Major}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.VersionMinor={{.Minor}}' 
+      - -X 'github.com/dihedron/nethealth/cmd/nethealth/build.VersionPatch={{.Patch}}' 
+    # hooks:
+    #   pre: <whatever>
+    #   post: 
+    #     - upx --best "{{.Path}}"
+nfpms:
+- maintainer: Andrea Funtò <dihedron dot dev at gmail dot com>
+  description: Network Health Monitor
+  homepage: https://github.com/dihedron/nethealth
+  license: MIT
+  formats:
+  - deb
+#  - rpm
+#  - apk
+# archives:
+#   - replacements:
+#       darwin: Darwin
+#       linux: Linux
+#       windows: Windows
+#       386: i386
+#       amd64: x86_64
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-snapshot"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+# gomod:
+#   proxy: false
+#   env:
+#     - GOPROXY=https://proxy.golang.org,direct
+#     - GOSUMDB=sum.golang.org
+#     - GOPRIVATE=example.com/blah
+#  gobinary: go
+
+
+

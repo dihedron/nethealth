@@ -1,0 +1,14 @@
+.PHONY: binary
+binary: 
+#	@goreleaser build --single-target --snapshot --rm-dist
+	@goreleaser build --snapshot --rm-dist
+	@cp dist/nethealth_linux_amd64_v3/nethealth .
+
+
+.PHONY: clean
+clean:
+	@rm -rf graphstack dist/
+
+.PHONY: run
+run: binary
+	@NETHEALTH_LOG_LEVEL=warn ./nethealth start
